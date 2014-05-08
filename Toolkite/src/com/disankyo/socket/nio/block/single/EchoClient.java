@@ -1,4 +1,4 @@
-package com.disankyo.nio.block.single;
+package com.disankyo.socket.nio.block.single;
 
 import java.io.BufferedReader;
 import java.io.IOException;

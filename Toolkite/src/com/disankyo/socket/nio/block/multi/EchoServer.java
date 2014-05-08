@@ -1,4 +1,4 @@
-package com.disankyo.nio.block.multi;
+package com.disankyo.socket.nio.block.multi;
 
 /**
  * 基于nio阻塞的通信服服务端 多线程

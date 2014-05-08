@@ -1,4 +1,4 @@
-package com.disankyo.bio.socket.single;
+package com.disankyo.socket.bio.single;
 
 import java.io.BufferedReader;
 import java.io.IOException;

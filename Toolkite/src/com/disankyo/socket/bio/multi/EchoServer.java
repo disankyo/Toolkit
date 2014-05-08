@@ -1,4 +1,4 @@
-package com.disankyo.bio.socket.multi;
+package com.disankyo.socket.bio.multi;
 
 import java.io.IOException;
 

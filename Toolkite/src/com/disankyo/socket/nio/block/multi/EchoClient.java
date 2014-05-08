@@ -1,4 +1,4 @@
-package com.disankyo.nio.block.multi;
+package com.disankyo.socket.nio.block.multi;
 
 /**
  * 基于nio的通信服客户端
