@@ -1,0 +1,5 @@
+2014-03-27 14:44:03:309 [pool-2-thread-1] INFO com.disankyo.test.TestMain  - 333333
+2014-03-27 14:44:28:213 [pool-2-thread-1] INFO com.disankyo.test.TestMain  - 333333
+2014-03-27 14:44:28:213 [pool-2-thread-2] ERROR com.disankyo.test.ErrorLog  - 1111111
+2014-03-27 14:52:45:729 [pool-2-thread-1] INFO com.disankyo.test.TestMain  - 333333
+2014-03-27 14:52:45:731 [pool-2-thread-2] ERROR com.disankyo.test.ErrorLog  - 1111111

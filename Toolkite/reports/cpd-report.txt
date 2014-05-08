@@ -1,0 +1,907 @@
+Found a 219 line (757 tokens) duplication in the following files: 
+Starting at line 55 of D:\workspace\Toolkite\src\com\disankyo\buffer\DynamicByteBuffer1.java
+Starting at line 62 of D:\workspace\Toolkite\src\com\disankyo\buffer\DynamicByteBuffer.java
+
+	}
+	
+	public byte get(){
+		return byteBuffer.get();
+	}
+	
+	public int getInt(){
+		return byteBuffer.getInt();
+	}
+	
+	public char getChar(){
+		return byteBuffer.getChar();
+	}
+	
+	public short getShort(){
+		return byteBuffer.getShort();
+	}
+	
+	public double getDouble(){
+		return byteBuffer.getDouble();
+	}
+	
+	public float getFloat(){
+		return byteBuffer.getFloat();
+	}
+	
+	public long getLong(){
+		return byteBuffer.getLong();
+	}
+	
+	public boolean getBoolean(){
+		byte b = get();
+		boolean flag = b == 1 ? true : false;
+		
+		return flag; 
+	}
+	
+	public ByteBuffer put(byte b){
+		int remain = remaining();
+		
+		if(remain < 1){
+			expendCapacity();
+		}
+		
+		byteBuffer.put(b);
+		
+		return byteBuffer;
+	}
+	
+	public ByteBuffer putChar(char value){
+		int remain = remaining();
+		
+		if(remain < 1){
+			expendCapacity();
+		}
+		
+		byteBuffer.putChar(value);
+		
+		return byteBuffer;
+	}
+	
+	public ByteBuffer putShort(short value){
+		int remain = remaining();
+		if(remain < 2){
+			expendCapacity();
+		}
+		
+		byteBuffer.putShort(value);
+		
+		return byteBuffer;
+	}
+	
+	public ByteBuffer putInt(int value){
+		int remain = remaining();
+		if(remain < 4){
+			expendCapacity();
+		}
+		
+		byteBuffer.putInt(value);
+		
+		return byteBuffer;
+	}
+	
+	public ByteBuffer putFloat(float value){
+		int remain = remaining();
+		if(remain < 4){
+			expendCapacity();
+		}
+		
+		byteBuffer.putFloat(value);
+		
+		return byteBuffer;
+	}
+	
+	public ByteBuffer putLong(long value){
+		int remain = remaining();
+		if(remain < 8){
+			expendCapacity();
+		}
+		
+		byteBuffer.putLong(value);
+		
+		return byteBuffer;
+	}
+	
+	public ByteBuffer putDouble(double value){
+		int remain = remaining();
+		if(remain < 8){
+			expendCapacity();
+		}
+		
+		byteBuffer.putDouble(value);
+		
+		return byteBuffer;
+	}
+	
+	public final Buffer flip(){
+		return byteBuffer.flip();
+	}
+	
+	public final int position(){
+		return byteBuffer.position();
+	}
+	
+	public final int limit(){
+		return byteBuffer.limit();
+	}
+	
+	public final int capacity(){
+		return byteBuffer.capacity();
+	}
+	
+	public final int remaining(){
+		return byteBuffer.remaining();
+	}
+	
+	public ByteBuffer put(byte[] src){
+		int remain = remaining();
+		int srcLength = src.length;
+		
+		if(remain < srcLength){
+			
+			int capacity = capacity();
+			int position = position();
+			
+			for(int i = 0; i < LOOT_TIMES; i++){
+				if(capacity - position < srcLength){
+					capacity = capacity << 1;
+				} else {
+					break;
+				}
+			}
+			
+			flip();
+			
+			byte[] data = new byte[limit()];
+			byteBuffer.get(data);
+			byteBuffer = ByteBuffer.allocate(capacity);
+			byteBuffer.put(data);
+		}
+		
+		byteBuffer.put(src);
+		
+		return byteBuffer;
+	}
+	
+	public ByteBuffer get(byte[] dst){
+		return byteBuffer.get(dst);
+	}
+	
+	public void putString(String src){
+		byte[] bb = null;
+		
+		try {
+			bb = src.getBytes("utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		short len = (short)bb.length;
+		putShort(len);
+		put(bb);
+	}
+	
+	public String getString(ByteBuffer byteBuffer){
+		
+		short len = byteBuffer.getShort();
+		byte[] bb = new byte[len];
+		byteBuffer.get(bb);
+		
+		String src = null;
+		try {
+			src = new String(bb, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		return src;
+	}
+	
+	public byte[] getBytes(){
+		
+		flip();
+		byte[] bb = new byte[limit()];
+		get(bb);
+		
+		return bb;
+	}
+	
+	private void expendCapacity(){
+		flip();
+		
+		byte[] data = new byte[limit()];
+		byteBuffer.get(data);
+		byteBuffer = ByteBuffer.allocate(capacity() << 1);
+		byteBuffer.put(data);
+	}
+	
+}
+=====================================================================
+Found a 57 line (213 tokens) duplication in the following files: 
+Starting at line 18 of D:\workspace\Toolkite\src\com\disankyo\util\GZIPUtil.java
+Starting at line 18 of D:\workspace\Toolkite\src\com\disankyo\compression\GZIPUtil.java
+
+public class GZIPUtil {
+
+    private static final SyncLogUtil logger = LoggerFactory.getLog(GZIPUtil.class);
+
+    private GZIPUtil(){
+    }
+    
+    /**
+     * 压缩
+     * @param data 要压缩的源数�?
+     * @return 压缩后的数据
+     */
+    public static byte[] getZip(byte[] data) throws IOException{
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+
+        GZIPOutputStream gzipOut = null;
+
+        try {
+            gzipOut = new GZIPOutputStream(byteOutput);
+            gzipOut.write(data);
+        } finally {
+            if (gzipOut != null) {
+                gzipOut.close();
+                gzipOut = null;
+            }
+        }
+        
+        return byteOutput.toByteArray();
+    }
+
+    /**
+     * 解压�?
+     * @param gzipData 要解压缩的gZip数据
+     * @return 解压缩后的数�?
+     */
+    public static byte[] deZip(byte[] gzipData) throws IOException{
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        GZIPInputStream gzipIn = null;
+        try {
+            gzipIn = new GZIPInputStream(new ByteArrayInputStream(gzipData));
+            byte[] buf = new byte[1024];
+            int length = 0;
+            while((length = gzipIn.read()) != -1){
+                byteOutput.write(buf, 0, length);
+            }
+        } catch (IOException ex) {
+            logger.errorLog(ex);
+        } finally {
+            if(gzipIn != null){
+                gzipIn.close();
+                gzipIn = null;
+            }
+        }
+        
+        return byteOutput.toByteArray();
+    }
+}
+=====================================================================
+Found a 33 line (171 tokens) duplication in the following files: 
+Starting at line 18 of D:\workspace\Toolkite\src\com\disankyo\bio\socket\single\EchoClient.java
+Starting at line 25 of D:\workspace\Toolkite\src\com\disankyo\bio\socket\multi\EchoClient.java
+
+	private String host = "localhost";
+	private int port = 8000;
+	private Socket socket;
+
+	public EchoClient() throws IOException {
+		socket = new Socket(host, port);
+	}
+
+	public static void main(String args[]) throws IOException {
+		
+		new EchoClient().talk();
+	}
+	
+	private PrintWriter getWriter(Socket socket) throws IOException {
+		OutputStream socketOut = socket.getOutputStream();
+		return new PrintWriter(socketOut, true);
+	}
+
+	private BufferedReader getReader(Socket socket) throws IOException {
+		InputStream socketIn = socket.getInputStream();
+		return new BufferedReader(new InputStreamReader(socketIn));
+	}
+
+	public void talk() throws IOException {
+		try {
+			BufferedReader br = getReader(socket);
+			PrintWriter pw = getWriter(socket);
+			BufferedReader localReader = new BufferedReader(
+					new InputStreamReader(System.in));
+			String msg = null;
+			while ((msg = localReader.readLine()) != null) {
+
+				pw.println(msg);
+=====================================================================
+Found a 28 line (118 tokens) duplication in the following files: 
+Starting at line 49 of D:\workspace\Toolkite\src\com\disankyo\nio\block\single\EchoServer.java
+Starting at line 50 of D:\workspace\Toolkite\src\com\disankyo\nio\block\single\EchoClient.java
+
+					System.out.println("server back : " + reader.readLine());
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if(socketChannel != null){
+					try {
+						socketChannel.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+	
+	private BufferedReader getReader(Socket socket) throws IOException{
+		InputStream in = socket.getInputStream();
+		return new BufferedReader(new InputStreamReader(in));
+	}
+	
+	private PrintWriter getWriter(Socket socket) throws IOException{
+		OutputStream out = socket.getOutputStream();
+		return new PrintWriter(out, true);
+	}
+	
+	public static void main(String[] args) throws IOException {
+		new EchoClient().service();
+=====================================================================
+Found a 17 line (72 tokens) duplication in the following files: 
+Starting at line 56 of D:\workspace\Toolkite\src\com\disankyo\nio\block\single\EchoServer.java
+Starting at line 47 of D:\workspace\Toolkite\src\com\disankyo\bio\socket\single\EchoServer.java
+
+						socket.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+	
+	private BufferedReader getReader(Socket socket) throws IOException{
+		InputStream in = socket.getInputStream();
+		return new BufferedReader(new InputStreamReader(in));
+	}
+	
+	private PrintWriter getWriter(Socket socket) throws IOException{
+		OutputStream out = socket.getOutputStream();
+		return new PrintWriter(new OutputStreamWriter(out));
+=====================================================================
+Found a 27 line (71 tokens) duplication in the following files: 
+Starting at line 252 of D:\workspace\Toolkite\src\com\disankyo\remote\jms\JMSServiceExporter.java
+Starting at line 298 of D:\workspace\Toolkite\src\com\disankyo\remote\jms\JMSClientExporter.java
+
+    }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
+    public ConnectionFactory getConnectionFactory() {
+        return connectionFactory;
+    }
+
+    public void setConnectionFactory(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
+    }
+
+    public Destination getPublishQueue() {
+        return publishQueue;
+    }
+
+    public void setPublishQueue(Destination publishQueue) {
+        this.publishQueue = publishQueue;
+    }
+
+    public Destination getReturnQueue() {
+=====================================================================
+Found a 22 line (70 tokens) duplication in the following files: 
+Starting at line 40 of D:\workspace\Toolkite\src\com\disankyo\remote\jms\JMSServiceExporter.java
+Starting at line 50 of D:\workspace\Toolkite\src\com\disankyo\remote\jms\JMSClientExporter.java
+
+            new ConcurrentHashMap<String, MessageProbe>();
+
+    /**
+     * 初始化方�?
+     * @throws Exception
+     */
+    @Override
+    protected void doInit() throws Exception {
+        Exception ex;
+        if (getConnectionFactory() == null) {
+            ex = new JMSException("JMS ConnectionFactory is empty.");
+            getLog().errorLog(ex);
+            throw ex;
+        }
+
+        if (getConnection() == null) {
+            ex = new JMSException("JMS Connection is empty.");
+            getLog().errorLog(ex);
+            throw ex;
+        }
+
+        if (getPublishQueue() == null) {
+=====================================================================
+Found a 9 line (58 tokens) duplication in the following files: 
+Starting at line 174 of D:\workspace\Toolkite\src\com\disankyo\util\ByteUtil.java
+Starting at line 217 of D:\workspace\Toolkite\src\com\disankyo\util\ByteUtil.java
+
+        int l;
+        l = b[0];
+        l &= 0xff;
+        l |= ((long) b[1] << 8);
+        l &= 0xffff;
+        l |= ((long) b[2] << 16);
+        l &= 0xffffff;
+        l |= ((long) b[3] << 24);
+        l &= 0xffffffffl;
+=====================================================================
+Found a 16 line (55 tokens) duplication in the following files: 
+Starting at line 50 of D:\workspace\Toolkite\src\com\disankyo\bio\socket\single\EchoClient.java
+Starting at line 58 of D:\workspace\Toolkite\src\com\disankyo\bio\socket\multi\EchoClient.java
+
+				logger.debugLog("server back : " + br.readLine());
+
+				if (msg.equals("bye"))
+					break;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				socket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+}
+=====================================================================
+Found a 18 line (52 tokens) duplication in the following files: 
+Starting at line 70 of D:\workspace\Toolkite\src\com\disankyo\transform\ts\UTF8STTransform.java
+Starting at line 58 of D:\workspace\Toolkite\src\com\disankyo\transform\ts\AbstractTransform.java
+
+        while(accessFile.read(buff) != EOF){
+            currentStr = new String(buff, CODE);
+            if (currentStr.charAt(0) == traditional) {
+                return true;
+            } else {
+                accessFile.skipBytes(buff.length);
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 判断字符是否是中文字�?
+     * @param traditional 字符
+     * @return 是中文字�? 返回true，否则返回false
+     */
+    public boolean isChinese(char traditional){
+=====================================================================
+Found a 9 line (50 tokens) duplication in the following files: 
+Starting at line 46 of D:\workspace\Toolkite\src\com\disankyo\util\StringUtil.java
+Starting at line 70 of D:\workspace\Toolkite\src\com\disankyo\util\StringUtil.java
+
+        String halfString = "";
+
+        if (source == null || source.isEmpty()) {
+            return source;
+        }
+
+        char[] ch = source.toCharArray();
+        for (int i = 0; i < ch.length; i++) {
+            if (ch[i] == '\u3000') {
+=====================================================================
+Found a 7 line (48 tokens) duplication in the following files: 
+Starting at line 179 of D:\workspace\Toolkite\src\com\disankyo\page\Page.java
+Starting at line 219 of D:\workspace\Toolkite\src\com\disankyo\page\Page.java
+
+        surplusCount = countSurplus(nowPointIndex, getPageSize(), totalCount);
+        if (surplusCount <= getPageSize()) {
+            scope.endLine = scope.startLine + (surplusCount - 1);
+
+        } else {
+            scope.endLine = scope.startLine + (getPageSize() - 1);
+        }
+=====================================================================
+Found a 18 line (44 tokens) duplication in the following files: 
+Starting at line 54 of D:\workspace\Toolkite\src\com\disankyo\log\async\AsyncLogUtil.java
+Starting at line 61 of D:\workspace\Toolkite\src\com\disankyo\log\SyncLogUtil.java
+
+    }
+
+    /**
+     * �?日志中输出一个错误�?�错误和错误消息必须设置�?
+     * @param ex 错误实例�?
+     * @param message 错误消息�?
+     * @param params 消息中的替换值�??
+     */
+    public void errorLog(Throwable ex,String message,Object... params){
+        if (ex == null) {
+            throw new IllegalArgumentException(
+                    "Can not record the error message empty.");
+        }
+
+        if (message == null) {
+            throw new IllegalArgumentException(
+                    "Can not record the message blank.");
+        }
+=====================================================================
+Found a 12 line (44 tokens) duplication in the following files: 
+Starting at line 92 of D:\workspace\Toolkite\src\com\disankyo\util\RandomUtil.java
+Starting at line 117 of D:\workspace\Toolkite\src\com\disankyo\util\RandomUtil.java
+
+		int randomValue = RandomUtil.getRandomInt(1, allWeight, seed);
+		
+		int tempValue = 0;
+		for(int index = 0; index < weightList.size(); index++){
+			tempValue += weightList.get(index);
+			if(randomValue >= tempValue){
+				return index;
+			}
+		}
+		
+		return 0;
+	}
+=====================================================================
+Found a 14 line (43 tokens) duplication in the following files: 
+Starting at line 26 of D:\workspace\Toolkite\src\com\disankyo\util\DateUtil.java
+Starting at line 143 of D:\workspace\Toolkite\src\com\disankyo\util\DateUtil.java
+
+        time.set(Calendar.HOUR, 0);
+        time.set(Calendar.MINUTE, 0);
+        time.set(Calendar.SECOND, 0);
+        time.set(Calendar.MILLISECOND, 0);
+        
+        return time.getTime();
+    }
+
+    /**
+     * 找到指定时间�?在的星期的星期日的日期�?�时间为23:59:59�?
+     * @param time 指定的时间�??
+     * @return 星期日的时间�?
+     */
+    public static Date findLastWeekDate(Date time) {
+=====================================================================
+Found a 7 line (42 tokens) duplication in the following files: 
+Starting at line 86 of D:\workspace\Toolkite\src\com\disankyo\util\RandomUtil.java
+Starting at line 111 of D:\workspace\Toolkite\src\com\disankyo\util\RandomUtil.java
+
+	public static int getWeightIndex(List<Integer> weightList, long seed){
+		int allWeight = 0;
+		for(int i = 0; i < weightList.size(); i++){
+			allWeight += weightList.get(i);
+		}
+		
+		int randomValue = RandomUtil.getRandomInt(1, allWeight, seed);
+=====================================================================
+Found a 14 line (41 tokens) duplication in the following files: 
+Starting at line 160 of D:\workspace\Toolkite\src\com\disankyo\util\DateUtil.java
+Starting at line 191 of D:\workspace\Toolkite\src\com\disankyo\util\DateUtil.java
+
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        return cal.getTime();
+    }
+
+    /**
+     * 返回两个时间的毫秒的差距，算法为第一个时间减去第二个时间�?
+     * @param first 时间�?
+     * @param second 时间�?
+     * @return 两�?�相关的毫秒�?
+     */
+    public static Long timeGap(Date first, Date second) {
+=====================================================================
+Found a 7 line (39 tokens) duplication in the following files: 
+Starting at line 42 of D:\workspace\Toolkite\src\com\disankyo\nio\block\single\EchoServer.java
+Starting at line 33 of D:\workspace\Toolkite\src\com\disankyo\bio\socket\single\EchoServer.java
+
+				socket = serverSocket.accept();
+				reader = getReader(socket);
+				writer = getWriter(socket);
+				
+				String msg = null;
+				while ((msg = reader.readLine()) != null) {
+					writer.println(msg);
+=====================================================================
+Found a 22 line (36 tokens) duplication in the following files: 
+Starting at line 16 of D:\workspace\Toolkite\src\com\disankyo\util\MapUtil.java
+Starting at line 49 of D:\workspace\Toolkite\src\com\disankyo\util\ListUtil.java
+
+    }
+
+    /**
+     * 用于包装空列表或者传入的列表值为null，返回Collections.EMPTY_LIST�?
+     * 否则原样返回�?
+     * @param map �?要检查的列表�?
+     * @return 如果为空或�?��?�为null，都将返回Collections.EMPTY_LIST，否则原样返回�??
+     */
+    public static Map packEmptyCollection(Map map) {
+        if (map == null || map.isEmpty()) {
+            return Collections.EMPTY_MAP;
+        } else {
+            return map;
+        }
+    }
+
+    /**
+     * 删除列表中重复的元素(无序)
+     * @param list 要操作的源列�?
+     * @return 删除重复元素后的列表
+     */
+    public static List deleteRepeatElement(List list) {
+=====================================================================
+Found a 13 line (35 tokens) duplication in the following files: 
+Starting at line 38 of D:\workspace\Toolkite\src\com\disankyo\log\async\AsyncLogUtil.java
+Starting at line 50 of D:\workspace\Toolkite\src\com\disankyo\log\async\AsyncLogUtil.java
+
+    public void warnLog(String message,Object... params){
+        checkEmptyMessage(message);
+
+        LogExcutor.execute(new LogTask(logger, StringUtil.replaceArgs(message, params)));
+    }
+
+    /**
+     * �?日志中输出一个错误�?�错误和错误消息必须设置�?
+     * @param ex 错误实例�?
+     * @param message 错误消息�?
+     * @param params 消息中的替换值�??
+     */
+    public void errorLog(Throwable ex,String message,Object... params){
+=====================================================================
+Found a 9 line (35 tokens) duplication in the following files: 
+Starting at line 81 of D:\workspace\Toolkite\src\com\disankyo\remote\jms\JMSServiceExporter.java
+Starting at line 97 of D:\workspace\Toolkite\src\com\disankyo\remote\jms\JMSClientExporter.java
+
+        }
+
+        connection = getConnectionFactory().createConnection();
+        //两个参数：一个表示会话是否是事务性的布尔和消息确认模式�??
+        receiveSession = connection.createSession(false,
+                Session.AUTO_ACKNOWLEDGE);
+
+        sendConsumer = receiveSession.createConsumer(returnQueue);
+        sendConsumer.setMessageListener(new MessageReceiveListener(registerPool));
+=====================================================================
+Found a 4 line (34 tokens) duplication in the following files: 
+Starting at line 67 of D:\workspace\Toolkite\src\com\disankyo\test\ShiftOperate.java
+Starting at line 19 of D:\workspace\Toolkite\src\com\disankyo\security\support\MD5Coder.java
+
+    private static char[] hexChars = {
+        '0', '1', '2', '3', '4', '5', '6', '7',
+        '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
+    };
+=====================================================================
+Found a 13 line (31 tokens) duplication in the following files: 
+Starting at line 28 of D:\workspace\Toolkite\src\com\disankyo\log\async\AsyncLogUtil.java
+Starting at line 38 of D:\workspace\Toolkite\src\com\disankyo\log\async\AsyncLogUtil.java
+
+    public void debugLog(String message, Object... params){
+        checkEmptyMessage(message);
+
+        LogExcutor.execute(new LogTask(logger, StringUtil.replaceArgs(message, params)));
+    }
+    
+    /**
+     *
+     * 记录�?个警告消息，消息中的参数将替换成params指定的�?��??
+     * @param message 消息�?
+     * @param params 消息中的替换值�??
+     */
+    public void warnLog(String message,Object... params){
+=====================================================================
+Found a 26 line (30 tokens) duplication in the following files: 
+Starting at line 465 of D:\workspace\Toolkite\src\com\disankyo\database\NameParamPreparedStatement.java
+Starting at line 476 of D:\workspace\Toolkite\src\com\disankyo\database\NameParamPreparedStatement.java
+
+    public void setObject(String parameterName, Object x, int targetSqlType)
+            throws SQLException {
+        this.statement.setObject(getIndex(parameterName), x);
+    }
+
+    /**
+     * 使用给定对象设置指定参数的�?��?�第二个参数必须是一个对象类型；
+     * 对于整数值，应该使用 java.lang 的等效对象�?? 如果第二个参数是�?�? InputStream�?
+     * 则该流必须包�? scaleOrLength 指定的字节数。如果第二个参数是一�? Reader�?
+     * 则该 Reader 必须包含 scaleOrLength 指定的字符数。如果这些条件不满足�?
+     * 则驱动程序在执行准备好的语句时将生成�?�? SQLException。在发�?�到数据库之前，
+     * 给定 Java 对象将被转换为给�? targetSqlType�? 如果对象具有自定义映射关�?
+     * （属于实�? SQLData 接口的类），那么 JDBC 驱动程序应该调用 SQLData.writeSQL
+     * 方法将它写入 SQL 数据流�?�另�?方面，如果该对象是实�? Ref、Blob、Clob、NClob、Struct、java.net.URL
+     * �? Array 的类，那么驱动程序应该将它作为相�? SQL 类型的�?�传递给数据库�??
+     *
+     * 注意，此方法可用于传递特定于数据库的抽象数据类型�?
+     * @param parameterName 参数名称�?
+     * @param x 包含输入参数值的对象
+     * @param targetSqlType 将发送给数据库的 SQL 类型（定义于 java.sql.Types 中）。scale 参数可以进一步限定此类型�?
+     * @param scaleOrLength 对于 java.sql.Types.DECIMAL �? java.sql.Types.NUMERIC 类型�?
+     * 此�?�是小数点后的位数�?�对�? Java Object 类型 InputStream �? Reader�?
+     * 此�?�是流或 Reader 中数据的长度。对于所有其他类型，忽略此�?��??
+     * @throws SQLException
+     */
+    public void setObject(String parameterName, Object x, int targetSqlType,
+=====================================================================
+Found a 5 line (30 tokens) duplication in the following files: 
+Starting at line 70 of D:\workspace\Toolkite\src\com\disankyo\util\ListUtil.java
+Starting at line 87 of D:\workspace\Toolkite\src\com\disankyo\util\ListUtil.java
+
+    public static List deleteRepeatElementWithOrder(List list) {
+        if(list == null || list.isEmpty()){
+            return packEmptyCollection(list);
+        }
+        Set set = new HashSet();
+=====================================================================
+Found a 13 line (29 tokens) duplication in the following files: 
+Starting at line 43 of D:\workspace\Toolkite\src\com\disankyo\util\ByteUtil.java
+Starting at line 104 of D:\workspace\Toolkite\src\com\disankyo\util\ByteUtil.java
+Starting at line 130 of D:\workspace\Toolkite\src\com\disankyo\util\ByteUtil.java
+
+        for (int i = 7; i >= 0; i--) {
+            b[i] = (byte) (number % 256);
+            number >>= 8;
+        }
+        return b;
+    }
+
+    /**
+     * 字节数组到整型的转换
+     * @param b 长整形字节数组�??
+     * @return 长整形数据�??
+     */
+    public static long byteToLong(byte[] b) {
+=====================================================================
+Found a 5 line (28 tokens) duplication in the following files: 
+Starting at line 208 of D:\workspace\Toolkite\src\com\disankyo\buffer\DynamicByteBuffer1.java
+Starting at line 265 of D:\workspace\Toolkite\src\com\disankyo\buffer\DynamicByteBuffer1.java
+
+		flip();
+		
+		byte[] data = new byte[limit()];
+		byteBuffer.get(data);
+		byteBuffer = ByteBuffer.allocate(capacity() << 1);
+=====================================================================
+Found a 14 line (28 tokens) duplication in the following files: 
+Starting at line 401 of D:\workspace\Toolkite\src\com\disankyo\database\NameParamPreparedStatement.java
+Starting at line 414 of D:\workspace\Toolkite\src\com\disankyo\database\NameParamPreparedStatement.java
+
+    public void setBinaryStream(String parameterName, InputStream x, int length)
+            throws SQLException {
+        this.statement.setBinaryStream(getIndex(parameterName), x);
+    }
+
+    /**
+     * 将指定参数设置为给定输入流�?�在将一个非常大的二进制值输入到 LONGVARBINARY 参数时，
+     * 通过 java.io.InputStream 对象发�?�它可能更为实际。将根据�?要从流中读取数据，一直读取到文件末尾�?
+     * @param parameterName 参数名称�?
+     * @param x 包含二进制参数�?�的 Java 输入流�??
+     * @param length 流中的字节数
+     * @throws SQLException
+     */
+    public void setBinaryStream(String parameterName, InputStream x, long length)
+=====================================================================
+Found a 4 line (28 tokens) duplication in the following files: 
+Starting at line 31 of D:\workspace\Toolkite\src\com\disankyo\util\WebUtil.java
+Starting at line 34 of D:\workspace\Toolkite\src\com\disankyo\util\WebUtil.java
+
+            ips = request.getHeader("WL-Proxy-Client-Ip");
+        }
+        if(ips == null || ips.length() == 0 || "unknown".equalsIgnoreCase(ips)){
+            ips = request.getRemoteAddr();
+=====================================================================
+Found a 2 line (28 tokens) duplication in the following files: 
+Starting at line 30 of D:\workspace\Toolkite\src\com\disankyo\util\WebUtil.java
+Starting at line 33 of D:\workspace\Toolkite\src\com\disankyo\util\WebUtil.java
+
+        if(ips == null || ips.length() == 0 || "unknown".equalsIgnoreCase(ips)){
+            ips = request.getHeader("WL-Proxy-Client-Ip");
+=====================================================================
+Found a 5 line (27 tokens) duplication in the following files: 
+Starting at line 172 of D:\workspace\Toolkite\src\com\disankyo\util\DateUtil.java
+Starting at line 187 of D:\workspace\Toolkite\src\com\disankyo\util\DateUtil.java
+
+    public static Date findMonthLastDay(Date time) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(time);
+
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+=====================================================================
+Found a 7 line (26 tokens) duplication in the following files: 
+Starting at line 74 of D:\workspace\Toolkite\src\com\disankyo\remote\jms\JMSServiceExporter.java
+Starting at line 79 of D:\workspace\Toolkite\src\com\disankyo\remote\jms\JMSClientExporter.java
+
+            ex = new JMSException("Address of queue return messages is empty.");
+            getLog().errorLog(ex);
+            throw ex;
+        }
+
+        if (getServiceName() == null) {
+            ex = new JMSException("Service name is not legitimate,{" +
+=====================================================================
+Found a 7 line (26 tokens) duplication in the following files: 
+Starting at line 56 of D:\workspace\Toolkite\src\com\disankyo\remote\jms\JMSServiceExporter.java
+Starting at line 73 of D:\workspace\Toolkite\src\com\disankyo\remote\jms\JMSClientExporter.java
+
+                    "Address of the queue publich messages is empty.");
+            getLog().errorLog(ex);
+            throw ex;
+        }
+
+        if (getReturnQueue() == null) {
+            ex = new JMSException("Address of queue return messages is empty.");
+=====================================================================
+Found a 19 line (26 tokens) duplication in the following files: 
+Starting at line 66 of D:\workspace\Toolkite\src\com\disankyo\util\WebUtil.java
+Starting at line 85 of D:\workspace\Toolkite\src\com\disankyo\util\WebUtil.java
+
+        addCookie(request, response, name, value, domain, null, maxAge);
+    }
+
+    /**
+     * 添加�?个Cookie,使用指定的contextPath
+     * @param request 全请�?
+     * @param response 响应
+     * @param name Cookie名称
+     * @param value Cookie�?
+     * @param domain 指定域名
+     * @param contextPath 域名存放路径
+     * @param maxAge 生命周期
+     */
+    public static void addCookie(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            String name,
+            String value,
+            String domain,
+=====================================================================
+Found a 2 line (26 tokens) duplication in the following files: 
+Starting at line 30 of D:\workspace\Toolkite\src\com\disankyo\util\WebUtil.java
+Starting at line 36 of D:\workspace\Toolkite\src\com\disankyo\util\WebUtil.java
+
+        if(ips == null || ips.length() == 0 || "unknown".equalsIgnoreCase(ips)){
+            ips = request.getRemoteAddr();
+=====================================================================
+Found a 11 line (25 tokens) duplication in the following files: 
+Starting at line 12 of D:\workspace\Toolkite\src\com\disankyo\buffer\DynamicByteBuffer1.java
+Starting at line 12 of D:\workspace\Toolkite\src\com\disankyo\buffer\DynamicByteBuffer.java
+
+public class DynamicByteBuffer{
+
+	static final int MIN_CAPATICY = 16;
+	
+	static final int MAX_CAPACITY = 30 << 1;
+	
+	static final int LOOT_TIMES = 20;
+	
+	private ByteBuffer byteBuffer;
+	
+	public DynamicByteBuffer(){
+=====================================================================
+Found a 7 line (25 tokens) duplication in the following files: 
+Starting at line 73 of D:\workspace\Toolkite\src\com\disankyo\nio\block\single\EchoServer.java
+Starting at line 63 of D:\workspace\Toolkite\src\com\disankyo\bio\socket\single\EchoServer.java
+
+		return new PrintWriter(new OutputStreamWriter(out));
+	}
+	
+	public static void main(String[] args) throws IOException {
+		new EchoServer().service();
+	}
+}
