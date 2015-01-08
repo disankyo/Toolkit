@@ -12,7 +12,7 @@ public class GenericTypeFactory implements TypeFactory{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public <TYPE> Type<TYPE> createType(Class clazz) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

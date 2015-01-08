@@ -40,7 +40,7 @@ public class IntType extends BaseType<Integer> {
         statement.setInt(filedName, value);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public Class getTypeClass() {
         return Integer.class;
     }

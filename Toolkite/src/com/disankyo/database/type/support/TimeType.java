@@ -40,7 +40,7 @@ public class TimeType extends BaseType<Time> {
         statement.setTime(filedName, value);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public Class getTypeClass() {
         return Time.class;
     }

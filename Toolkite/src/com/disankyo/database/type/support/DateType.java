@@ -40,7 +40,7 @@ public class DateType extends BaseType<Date> {
         statement.setDate(filedName, value);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public Class getTypeClass() {
         return type.getClass();
     }

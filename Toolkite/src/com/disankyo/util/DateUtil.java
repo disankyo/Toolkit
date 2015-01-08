@@ -260,8 +260,6 @@ public class DateUtil {
 	
 	/**
 	 * 多少毫秒后到 第一个 该小时，分，秒
-	 * @author haojian
-	 * May 6, 2012 3:01:51 PM
 	 * @param hour 小时
 	 * @param minute 分
 	 * @param second 秒

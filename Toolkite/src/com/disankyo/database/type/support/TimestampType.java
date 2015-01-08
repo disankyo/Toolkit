@@ -41,7 +41,7 @@ public class TimestampType extends BaseType<Timestamp> {
         statement.setTimestamp(filedName, value);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public Class getTypeClass() {
         return Timestamp.class;
     }

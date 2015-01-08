@@ -40,7 +40,7 @@ public class StringType extends BaseType<String> {
         statement.setString(filedName, value);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public Class getTypeClass() {
         return String.class;
     }

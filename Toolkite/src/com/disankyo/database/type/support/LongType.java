@@ -39,7 +39,7 @@ public class LongType extends BaseType<Long> {
         statement.setLong(filedName, value);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public Class getTypeClass() {
         return Long.class;
     }

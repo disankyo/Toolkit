@@ -40,7 +40,7 @@ public class ObjectType extends BaseType<Object> {
         statement.setObject(filedName, value);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public Class getTypeClass() {
         return Object.class;
     }

@@ -52,8 +52,11 @@ public class UTF8TSTransform extends AbstractTransform{
     }
 
     public static void main(String[] args) throws Exception {
-        Transform<String, String> t = new UTF8TSTransform("./build/classes/utf8-ts.tab");
-        System.out.println(t.transform("長长江实业"));
+    	long t1 = System.currentTimeMillis();
+        Transform<String, String> t = new UTF8TSTransform("E:\\workspace\\Toolkite\\bin\\utf8-ts.tab");
+        System.out.println(t.transform("長长江业"));
+        long t2 = System.currentTimeMillis();
+        System.out.println("========"+(t2 - t1));
     }
 
 }

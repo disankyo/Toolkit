@@ -13,13 +13,10 @@ import com.disankyo.security.EncryptException;
  */
 public class MD5Coder extends AbstractSecurityCoder {
 
-	/**
-     * 十六进制表
-     */
-    private static char[] hexChars = {
-        '0', '1', '2', '3', '4', '5', '6', '7',
-        '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
-    };
+	/** * 16进制字符集 */
+    private static final char HEX_DIGITS[] = 
+    	{'0', '1', '2', '3', '4', '5', '6', '7', 
+    	'8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
     
     /**
      * 对给定的数据加密,如果加密的数据为空或null,则抛出IllegalArgumentException
@@ -66,8 +63,8 @@ public class MD5Coder extends AbstractSecurityCoder {
     public static String toHexString(byte[] b) {
         StringBuilder sb = new StringBuilder(b.length * 2);
         for (int i = 0; i < b.length; i++) {
-            sb.append(hexChars[(b[i] & 0xf0) >>> 4]);
-            sb.append(hexChars[b[i] & 0x0f]);
+            sb.append(HEX_DIGITS[(b[i] & 0xf0) >>> 4]);
+            sb.append(HEX_DIGITS[b[i] & 0x0f]);
         }
         return sb.toString();
     }

@@ -39,7 +39,7 @@ public class UrlType extends BaseType<URL>{
         statement.setURL(filedName, value);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public Class getTypeClass() {
         return URL.class;
     }

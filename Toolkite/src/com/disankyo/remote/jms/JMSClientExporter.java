@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeoutException;
+
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.DeliveryMode;
@@ -176,7 +177,8 @@ public class JMSClientExporter extends ClientExporter {
          * @param probe 探测器
          * @return 服务端发送的结果
          */
-        private Map<String, Serializable> receiveMessage(
+        @SuppressWarnings("unused")
+		private Map<String, Serializable> receiveMessage(
                 String messageID,
                 MessageProbe probe) 
                 throws InterruptedException, TimeoutException {
@@ -228,7 +230,7 @@ public class JMSClientExporter extends ClientExporter {
          * @param args
          * @return
          */
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings("rawtypes")
         private ObjectMessage buildMessage(
                 Session session,
                 Method method,
@@ -241,7 +243,8 @@ public class JMSClientExporter extends ClientExporter {
                     new HashMap<String, Serializable>();
             callInfo.put(JMSConfig.METHOD_NAME, methodName);
 
-            Class[] paramsClass = method.getParameterTypes();
+           
+			Class[] paramsClass = method.getParameterTypes();
 
             if (paramsClass.length > 0) {
                 callInfo.put(JMSConfig.PARAMETER_VALUE_LIST, args);

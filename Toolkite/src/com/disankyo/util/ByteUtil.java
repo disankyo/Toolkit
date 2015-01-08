@@ -358,6 +358,8 @@ public class ByteUtil {
     	
 		byte[] bb = intToByte(10);
 		
+		bb = new byte[]{0x53,(byte)0xBB,0x47,(byte)0x80};
+		
 		System.out.println(byteToInt(bb));
 	}
 }

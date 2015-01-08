@@ -40,7 +40,7 @@ public class FloatType extends BaseType<Float> {
         statement.setFloat(filedName, value);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public Class getTypeClass() {
         return Float.class;
     }

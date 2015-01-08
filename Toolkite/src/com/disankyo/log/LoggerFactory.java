@@ -10,6 +10,7 @@ import com.disankyo.log.async.AsyncLogUtil;
  * @author xjx
  *
  */
+@SuppressWarnings("rawtypes")
 public class LoggerFactory {
 
 	/**
@@ -17,7 +18,6 @@ public class LoggerFactory {
      * @param clazz 具体的类
      * @return LogUtil 实例
      */
-	@SuppressWarnings("unchecked")
 	public static SyncLogUtil getLog(Class clazz){
         return new SyncLogUtil(LogFactory.getLog(clazz));
     }
@@ -27,7 +27,6 @@ public class LoggerFactory {
      * @param clazz 具体的类
      * @return AsynchLogUtil 实例
      */
-	@SuppressWarnings("unchecked")
 	public static AsyncLogUtil getAsynchLog(Class clazz){
         return new AsyncLogUtil(LogFactory.getLog(clazz));
     }
@@ -37,7 +36,6 @@ public class LoggerFactory {
      * @param name 具体的类
      * @return AsynchLogUtil 实例
      */
-	@SuppressWarnings("unchecked")
 	public static AsyncLogUtil getAsynchLog(String name){
         return new AsyncLogUtil(LogFactory.getLog(name));
     }

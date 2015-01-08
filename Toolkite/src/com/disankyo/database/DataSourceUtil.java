@@ -16,7 +16,7 @@ import com.disankyo.database.type.Type;
  * @since 1.6
  * @author disankyo
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class DataSourceUtil {
 	
     private static final String PARAMETER_ERROR_MESSAGE =

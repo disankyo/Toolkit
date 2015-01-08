@@ -9,7 +9,7 @@ import java.util.Map;
  * @since 1.6
  * @author disankyo
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings("rawtypes")
 public class MapUtil {
 
     private MapUtil(){

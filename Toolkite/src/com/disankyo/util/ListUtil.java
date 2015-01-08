@@ -14,7 +14,7 @@ import java.util.Set;
  * @since 1.6
  * @author disankyo
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class ListUtil {
 
     private ListUtil(){

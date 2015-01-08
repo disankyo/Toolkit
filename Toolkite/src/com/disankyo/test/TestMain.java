@@ -1,14 +1,14 @@
 package com.disankyo.test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import com.disankyo.log.ErrorLog;
 import com.disankyo.log.LogUtil;
 import com.disankyo.log.LoggerFactory;
+import com.disankyo.util.ByteUtil;
 
 /**
  *
@@ -27,21 +27,33 @@ public class TestMain {
 	
 	/**
 	 * @param args
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
-		System.out.println(1 << 30);
-		System.out.println(1024 << 7);
-		System.out.println(Runtime.getRuntime().availableProcessors());
+	public static void main(String[] args) throws IOException {
+//		System.out.println(1 << 30);
+//		System.out.println(1024 << 7);
+//		System.out.println(Runtime.getRuntime().availableProcessors());
+//		
+//		Executor executor = Executors.newCachedThreadPool();
+//		TestMain main = new TestMain();
+//		for (int i = 0; i < 1000; i++) {
+//			executor.execute(main.new MyRunnable(i));
+//		}
+//		
+//		for (int i = 0; i < 1000; i++) {
+//			executor.execute(main.new MyRunnable1());
+//		}
 		
-		Executor executor = Executors.newCachedThreadPool();
-		TestMain main = new TestMain();
-		for (int i = 0; i < 1000; i++) {
-			executor.execute(main.new MyRunnable(i));
+		
+//		int x = 25;
+//		byte[] bytes = ByteUtil.intToByte(x);
+		
+		String ss = "二进制";
+		byte[] bytes = ByteUtil.objectToByte(ss);
+		for (byte b : bytes) {
+			System.out.println(ByteUtil.bitString(b));
 		}
 		
-		for (int i = 0; i < 1000; i++) {
-			executor.execute(main.new MyRunnable1());
-		}
 		
 	}
 	

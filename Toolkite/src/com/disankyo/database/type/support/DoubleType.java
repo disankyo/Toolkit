@@ -40,7 +40,7 @@ public class DoubleType extends BaseType<Double> {
         statement.setDouble(filedName, value);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public Class getTypeClass() {
         return Double.class;
     }

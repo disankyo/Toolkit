@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URL;
+
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.pool.BasePoolableObjectFactory;
 import org.apache.commons.pool.ObjectPool;
@@ -26,13 +27,13 @@ import org.apache.commons.pool.impl.GenericObjectPoolFactory;
  * @since 1.6
  * @author allean
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class PoolSocketSource implements SocketSource {
 
     private static final SyncLogUtil LOG = new SyncLogUtil(LogFactory.getLog(PoolSocketSource.class));
     private Config localConfig;
     private boolean hasInit;
-    private ObjectPool pool;
+	public ObjectPool pool;
     
     /**
      * 构造一个新的Socket对象池实例
@@ -89,7 +90,7 @@ public class PoolSocketSource implements SocketSource {
 
             GenericObjectPool.Config poolConfig = initPoolConfig(localConfig);
             PoolableSocketFactory  socketFactory = new PoolableSocketFactory();
-            ObjectPoolFactory poolFactory = new GenericObjectPoolFactory(socketFactory, poolConfig);
+            ObjectPoolFactory<SocketImpl> poolFactory = new GenericObjectPoolFactory<SocketImpl>(socketFactory, poolConfig);
             pool = poolFactory.createPool();
 
             hasInit = true;
@@ -164,7 +165,7 @@ public class PoolSocketSource implements SocketSource {
     /**
      * 生成对象的对象池实现
      */
-    private class PoolableSocketFactory extends BasePoolableObjectFactory{
+	private class PoolableSocketFactory extends BasePoolableObjectFactory{
         
         /**
          * 生成新的Socket放到线程池
@@ -244,6 +245,7 @@ public class PoolSocketSource implements SocketSource {
     /**
      * 配置信息处理类
      */
+    @SuppressWarnings("unused")
     private class Config {
 
         //配置套接字的属性

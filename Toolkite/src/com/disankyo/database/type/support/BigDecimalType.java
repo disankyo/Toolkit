@@ -41,7 +41,7 @@ public class BigDecimalType extends BaseType<BigDecimal> {
         statement.setBigDecimal(filedName, value);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
 	public Class getTypeClass() {
         return BigDecimal.class;
     }

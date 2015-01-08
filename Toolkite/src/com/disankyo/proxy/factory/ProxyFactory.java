@@ -9,7 +9,7 @@ import java.lang.reflect.Proxy;
  * @since 1.6
  * @author allean
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings("rawtypes")
 public class ProxyFactory {
 
     /**

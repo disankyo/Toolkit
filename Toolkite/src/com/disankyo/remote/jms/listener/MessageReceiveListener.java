@@ -27,7 +27,7 @@ public class MessageReceiveListener implements MessageListener {
     public MessageReceiveListener(Map<String, MessageProbe> registerPool){
         this.registerPool = registerPool;
     }
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "unused" })
     public void onMessage(Message message) {
         try {
             String jmsId = message.getJMSCorrelationID();

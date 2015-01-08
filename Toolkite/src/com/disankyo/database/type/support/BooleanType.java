@@ -40,7 +40,7 @@ public class BooleanType extends BaseType<Boolean> {
         statement.setBoolean(filedName, value);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public Class getTypeClass() {
         return Boolean.class;
     }

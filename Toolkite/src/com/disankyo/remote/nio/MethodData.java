@@ -12,7 +12,7 @@ import java.util.Arrays;
  * @since 1.6
  * @author allean
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings("rawtypes")
 public class MethodData implements Externalizable{
 
     private String name;        //方法名称

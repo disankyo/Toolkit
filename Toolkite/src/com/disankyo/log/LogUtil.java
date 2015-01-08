@@ -75,8 +75,7 @@ public abstract class LogUtil {
      */
     public void checkEmptyMessage(String message) {
         if (message == null || message.isEmpty()) {
-            throw new IllegalArgumentException(
-                    "Can not record the message blank.");
+            throw new IllegalArgumentException("Can not record the message blank.");
         }
     }
 }

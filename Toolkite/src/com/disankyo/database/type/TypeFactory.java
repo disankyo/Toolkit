@@ -23,6 +23,6 @@ public interface TypeFactory {
      * @param clazz 类型实例
      * @return Type实例
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public <TYPE> Type <TYPE> createType(Class clazz);
 }

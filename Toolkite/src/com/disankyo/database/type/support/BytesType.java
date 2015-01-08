@@ -40,7 +40,7 @@ public class BytesType extends BaseType<byte[]> {
         statement.setBytes(filedName, value);
     }
     
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public Class getTypeClass() {
         return Byte[].class;
     }

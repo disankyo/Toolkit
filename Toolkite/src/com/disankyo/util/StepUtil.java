@@ -15,7 +15,7 @@ public class StepUtil {
 	 * @return
 	 */
 	public static boolean checkPower(int recordValue, int index){ 
-		int currentValue = (int)Math.pow(2, index); 
+		int currentValue = index << 1; 
 		return (recordValue & currentValue) == currentValue; 
 	} 
 	
@@ -27,7 +27,7 @@ public class StepUtil {
 	 * @return 返回新的值
 	 */
 	public static int getNewRecordValue(int oldRecordValue , int index){
-		int newRecordValue = oldRecordValue + (int)Math.pow(2, index);
+		int newRecordValue = oldRecordValue + (index << 1);
 		return newRecordValue;
 	}
 	
@@ -78,7 +78,7 @@ public class StepUtil {
 	
 	
 	public static void main(String[] args) {
-		String oldSource = "0100";
-		System.out.println(getStepValue(oldSource, 4));
+		
+		
 	}
 }

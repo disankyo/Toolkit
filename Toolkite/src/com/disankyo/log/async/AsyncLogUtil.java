@@ -47,7 +47,7 @@ public class AsyncLogUtil extends LogUtil{
      * @param message 消息。
      * @param params 消息中的替换值。
      */
-    public void warnLog(String message,Object... params){
+    public void warnLog(String message, Object... params){
         checkEmptyMessage(message);
 
         LogExcutor.execute(new LogTask(logger, StringUtil.replaceArgs(message, params)));
@@ -59,7 +59,7 @@ public class AsyncLogUtil extends LogUtil{
      * @param message 错误消息。
      * @param params 消息中的替换值。
      */
-    public void errorLog(Throwable ex,String message,Object... params){
+    public void errorLog(Throwable ex, String message, Object... params){
         if (ex == null) {
             throw new IllegalArgumentException(
                     "Can not record the error message empty.");

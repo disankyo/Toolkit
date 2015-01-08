@@ -22,7 +22,7 @@ public class FileUtil {
      * @param resourceName 用于定位的资源。
      * @return 资源的绝对路径。
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
 	public static String findLocalPath(Class clazz, String resourceName) {
         String originalPath = clazz.getResource(resourceName).toString();
         return prune(originalPath);

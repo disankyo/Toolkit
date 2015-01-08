@@ -55,6 +55,6 @@ public interface Type<T> {
      * 获取当前数据类型的Class对象
      * @return 当前相关的参数类型
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public Class getTypeClass();
 }

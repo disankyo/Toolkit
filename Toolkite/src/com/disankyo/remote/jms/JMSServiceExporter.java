@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.DeliveryMode;
@@ -120,6 +121,7 @@ public class JMSServiceExporter extends ServiceExporter{
      * 服务端响应客户端消息调用的处理单元，根据message消息来执行相应的方法，
      * 并把结果包装成ObjectMessage发送到客户端
      */
+    @SuppressWarnings("unused")
     private class MethodCallTask implements Runnable{
         private ObjectMessage message;
         private String clientID;
@@ -128,7 +130,7 @@ public class JMSServiceExporter extends ServiceExporter{
             this.clientID = clientID;
         }
 
-        public ObjectMessage getMessage() {
+		public ObjectMessage getMessage() {
             return message;
         }
 
@@ -190,7 +192,7 @@ public class JMSServiceExporter extends ServiceExporter{
          * @throws IllegalArgumentException
          * @throws InvocationTargetException
          */
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({"unchecked", "rawtypes"})
         private Object invoke() 
                 throws JMSException,
                 NoSuchMethodException,
@@ -201,7 +203,7 @@ public class JMSServiceExporter extends ServiceExporter{
             //获取客户端要调用的目标方法名称
             String methodName = (String) callInfo.get(JMSConfig.METHOD_NAME);
             //请求调用方法的参数类型
-            Class[] paramClass = (Class[]) callInfo.get(JMSConfig.PARAMETER_CLASS_LIST);
+			Class[] paramClass = (Class[]) callInfo.get(JMSConfig.PARAMETER_CLASS_LIST);
             //请求调用方法的参数名称
             Object[] args = (Object[]) callInfo.get(JMSConfig.PARAMETER_VALUE_LIST);
 

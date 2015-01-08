@@ -11,7 +11,7 @@ import java.lang.reflect.InvocationHandler;
  * @since 1.6
  * @author allean
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings("rawtypes")
 public abstract class ClientExporter  extends Exporter{
 
     private Class interfaceClass;

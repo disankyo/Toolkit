@@ -268,6 +268,9 @@ public class DynamicByteBuffer{
 		return bb;
 	}
 	
+	/**
+	 * 扩容
+	 */
 	private void expendCapacity(){
 		flip();
 		
